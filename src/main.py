@@ -8,9 +8,7 @@ config.read('config.ini')
 
 #initialize database
 
-
 # run bot
 bot = commands.Bot(command_prefix="!")
-bot.add_cog(Greetings(bot))
+bot.add_cog(QueueBot(bot))
 bot.run(config['bot']['client_key'])
-

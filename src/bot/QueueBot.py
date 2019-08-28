@@ -26,5 +26,11 @@ class QueueBot(commands.Cog):
             await ctx.send('Hello {0.name}... This feels familiar.'.format(member))
         self._last_member = member
 
+    @commands.command()
+    async def ping(self, ctx, *, member: discord.Member = None):
+        member = member or ctx.author
+        await ctx.send('pong {0.mention}'.format(member))
+        self._last_member = member
+
     
 
