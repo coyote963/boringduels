@@ -33,4 +33,3 @@ class QueueBot(commands.Cog):
         self._last_member = member
 
     
-
