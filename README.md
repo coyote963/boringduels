@@ -11,3 +11,4 @@ Socket layer: interfaces with the game
 
 Database layer: executes SQL statements
 
+And then there is a session object that keeps track of the current game in progress.
