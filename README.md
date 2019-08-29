@@ -12,3 +12,24 @@ Socket layer: interfaces with the game
 Database layer: executes SQL statements
 
 And then there is a session object that keeps track of the current game in progress.
+
+### Set up
+clone this repo
+
+pip install requirements.txt
+
+(optionally start a virtual environment)
+
+install sqlite database
+
+initialize a database in project root
+
+name the database: data.db
+
+run the createtable sql script
+
+create a config file with:
+
+client_key = "YOUR_DISCORD_BOT_KEY_GOES_HERE"
+
+You are all set, run the program with python main.py
