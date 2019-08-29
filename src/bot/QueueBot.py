@@ -7,6 +7,7 @@ class QueueBot(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self._last_member = None
+        self.nature = ["dog","cat","fish","bird"]
         print("bot initted")
 
     @commands.Cog.listener()
@@ -27,9 +28,9 @@ class QueueBot(commands.Cog):
         self._last_member = member
 
     @commands.command()
-    async def ping(self, ctx, *, member: discord.Member = None):
+    async def animal(self, ctx, *, member: discord.Member = None):
         member = member or ctx.author
-        await ctx.send('pong {0.mention}'.format(member))
+        print(self.nature[0])
         self._last_member = member
 
     
