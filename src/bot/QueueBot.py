@@ -8,6 +8,7 @@ class QueueBot(commands.Cog):
         self.bot = bot
         self._last_member = None
         self.nature = ["dog","cat","fish","bird"]
+        self.player_queue = 
         print("bot initted")
 
     @commands.Cog.listener()
@@ -32,5 +33,21 @@ class QueueBot(commands.Cog):
         member = member or ctx.author
         print(self.nature[0])
         self._last_member = member
-
     
+    @commands.command()
+    async def register(self, ctx, arg= None):
+        if (arg == None):
+            ctx.send("You need to provide your boring man in game name, see pins")
+        else:
+            await ctx.send("Your in game name can now join the server: " + arg)
+
+    @commands.command()
+    async def join(self, ctx):
+        await ctx.send("i added u into the queue")
+
+    @commands.command()
+    async def info(self, ctx, *, member: discord.Member = None):
+        member = member or ctx.author
+        
+        await member.send("hello")
+       

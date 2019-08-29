@@ -52,3 +52,7 @@ class PlayerQueue:
         usc_player = self.players.get()
         current_session = Session(man_player, usc_player)
         self.current_session = current_session
+
+    #returns if there is enough players to advance_queue
+    def can_advance_queue(self):
+        return len(self.players) > 1
