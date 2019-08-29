@@ -4,11 +4,11 @@ import queue
 from discord.ext import commands
 bot = commands.Bot(command_prefix='$')
 class QueueBot(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot, player_queue):
         self.bot = bot
         self._last_member = None
         self.nature = ["dog","cat","fish","bird"]
-        self.player_queue = 
+        self.player_queue = player_queue
         print("bot initted")
 
     @commands.Cog.listener()

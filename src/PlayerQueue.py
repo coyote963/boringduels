@@ -1,4 +1,4 @@
-import Queue
+import queue
 from datetime import timedelta, datetime 
 from db.connect import get_player_discord
 SESSION_TIME = 3
@@ -31,9 +31,9 @@ class Session:
         return datetime.now() < self.time_ending
 
 class PlayerQueue:
-    def __init__(self, current_session):
+    def __init__(self, current_session=None):
         # queue for holding a list of the players in the queue
-        self.players = Queue.Queue()
+        self.players = queue.Queue()
         self.current_session = current_session
 
     def enter_queue_ign(self, discord_id, ign):
