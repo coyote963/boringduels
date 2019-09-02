@@ -16,7 +16,6 @@ pq = PlayerQueue()
 start(pq)
 
 # run bot
-
 bot = commands.Bot(command_prefix="!")
 bot.add_cog(QueueBot(bot, pq))
 bot.run(config['bot']['client_key'])

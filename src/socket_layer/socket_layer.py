@@ -17,7 +17,7 @@ def start(pq):
 	q = deque()
 	e = Event()
 	e.wait
-	producer = Thread(target = read_from_stream, args=(q, e))
+	producer = Thread(target = read_from_stream, args=(q, e, []))
 	producer.setDaemon(True)
 	producer.start()
 
@@ -25,16 +25,16 @@ def start(pq):
 	consumer.setDaemon(True)
 	consumer.start()
 		
-def consume_block(q, e):
-	
+def consume_block(q, e, functionlist):
 	while (True):
 		e.wait()
 		while (len(q) > 0):
-			print(q.pop())
+			item = q.pop()
+			for function_element in functionlist:
+				function_element(item)
 		e.clear()
 		
 def read_from_stream(q, e):
-
 	config = configparser.ConfigParser()
 	config.read('config.ini')
 	host = config['server']['ip_address'] 
@@ -49,4 +49,3 @@ def read_from_stream(q, e):
 			block = blocksplit(data)
 			q.append(block)
 			e.set()
-
