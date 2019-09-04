@@ -35,6 +35,7 @@ class PlayerQueue:
         # queue for holding a list of the players in the queue
         self.players = queue.Queue()
         self.current_session = current_session
+        self.lock = False
 
     def enter_queue_ign(self, discord_id, ign):
         player = Player(discord_id)
@@ -56,3 +57,7 @@ class PlayerQueue:
     #returns if there is enough players to advance_queue
     def can_advance_queue(self):
         return len(self.players) > 1
+
+    #sets the lock
+    def togglelock(self, value):
+        self.lock = value

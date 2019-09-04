@@ -53,6 +53,7 @@ def gamemode(identifier):
 
 
 def blocksplit(block):
+	
 	i = 0
 	blockq = deque()
 	block = str(block, 'utf-8')

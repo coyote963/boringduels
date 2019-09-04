@@ -1,51 +1,43 @@
-import socket
-import configparser
 from socket_layer.blocksplit import blocksplit
 from collections import deque
 from threading import Thread, Event
+from socket_layer.functionlist import echo, addbot, onplayerjoin, requestinfo
+from socket_layer.helper import create_socket
 # this will start a multithreaded process. One will fetch from game, 
 # append into a queue, one will consume from the queue and make database calls, 
 # finally session manager will take care of the session
 
-# helper function to send non-newline string to the socket properly
-def send_to_socket(socket, message):
-	message = message + '\n'
-	socket.send(message.encode('utf-8'))
-
-# main parent function
 def start(pq):
+	'''# main parent function'''
 	q = deque()
 	e = Event()
-	e.wait
-	producer = Thread(target = read_from_stream, args=(q, e, []))
+	s = create_socket()
+	#start the producer, reading from stream
+	producer = Thread(target = read_from_stream, args=(q, e,s))
 	producer.setDaemon(True)
 	producer.start()
 
-	consumer = Thread(target = consume_block, args=( q, e))
+	#start the consumer, popping from the q
+	consumer = Thread(target = consume_block, args=( q, e, [ addbot, onplayerjoin, requestinfo], pq, s))
 	consumer.setDaemon(True)
 	consumer.start()
 		
-def consume_block(q, e, functionlist):
+def consume_block(q, e, functionlist, pq, s):
+	'''process to call all the functions in @param functionlist and on each of the elements q.
+	Blocks if there is nothing to consume'''
 	while (True):
 		e.wait()
 		while (len(q) > 0):
 			item = q.pop()
 			for function_element in functionlist:
-				function_element(item)
+				function_element(item, pq, gamesocket = s, playerqueue = q)
 		e.clear()
 		
-def read_from_stream(q, e):
-	config = configparser.ConfigParser()
-	config.read('config.ini')
-	host = config['server']['ip_address'] 
-	port = int(config['server']['rcon_port'])
-
-	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-		s.connect((host, port))
-		login = '/rcon ' + config['server']['rcon_password'] 
-		send_to_socket(s, login)
-		while (True):
-			data = s.recv(1024)
-			block = blocksplit(data)
-			q.append(block)
-			e.set()
+def read_from_stream(q, e, s):
+	'''process to read from a socket and place them into a queue. Calls blocksplit to index the data'''
+	while (True):
+		data = s.recv(4096)
+		block = blocksplit(data)
+		# concatenate the two deques
+		q += block
+		e.set()

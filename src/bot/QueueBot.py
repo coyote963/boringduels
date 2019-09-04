@@ -20,7 +20,6 @@ class QueueBot(commands.Cog):
     @commands.command()
     async def hello(self, ctx, *, member: discord.Member = None):
         """Says hello"""
-        print("Message received")
         member = member or ctx.author
         if self._last_member is None or self._last_member.id != member.id:
             await ctx.send('Hello {0.name}~'.format(member))
@@ -50,4 +49,3 @@ class QueueBot(commands.Cog):
         member = member or ctx.author
         
         await member.send("hello")
-       
